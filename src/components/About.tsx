@@ -9,6 +9,7 @@ const About = () => {
     { name: 'GitHub', url: 'https://github.com/Alishan45' },
     { name: 'LinkedIn', url: 'https://www.linkedin.com/in/ali-shan-542246235/' },
     { name: 'Kaggle', url: 'https://www.kaggle.com/alishan456' },
+    { name: 'CV', url: 'https://cv24.oneapp.dev/' },
   ];
 
   return (
