@@ -17,10 +17,12 @@ const ContactForm = () => {
     message: '',
   });
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('sending');
+    setErrorMessage(null);
 
     let emailSent = false;
 
@@ -40,7 +42,9 @@ const ContactForm = () => {
         console.log('Message sent successfully via Nodemailer:', data);
         emailSent = true;
       } else {
-        throw new Error(data.error || 'Failed to send message via primary method');
+        const primaryErrorMessage = data?.error || 'Failed to send message via primary method';
+        setErrorMessage(primaryErrorMessage);
+        throw new Error(primaryErrorMessage);
       }
 
     } catch (primaryError) {
@@ -55,10 +59,13 @@ const ContactForm = () => {
           console.log('Message sent successfully via EmailJS');
           emailSent = true;
         } else {
-          throw new Error('EmailJS fallback failed');
+          const fallbackMessage = 'EmailJS fallback failed or is not configured.';
+          setErrorMessage(fallbackMessage);
+          throw new Error(fallbackMessage);
         }
       } catch (fallbackError) {
         console.error('Fallback email method also failed:', fallbackError);
+        setErrorMessage((fallbackError instanceof Error && fallbackError.message) ? fallbackError.message : 'Message could not be sent. Please try again later.');
       }
     }
 
@@ -114,17 +121,17 @@ const ContactForm = () => {
   const [focusedField, setFocusedField] = useState<string | null>(null);
 
   const statusMessages = {
-    sending: { text: "Sending message...", className: "bg-blue-100 text-blue-800" },
-    success: { text: "Message sent successfully!", className: "bg-green-100 text-green-800" },
-    error: { text: "Failed to send message. Please try again.", className: "bg-red-100 text-red-800" }
+    sending: { text: "Sending message...", className: "bg-cyan-900/80 text-cyan-100 border border-cyan-500/20" },
+    success: { text: "Message sent successfully!", className: "bg-emerald-900/85 text-emerald-100 border border-emerald-500/20" },
+    error: { text: errorMessage || "Failed to send message. Please try again.", className: "bg-red-900/85 text-red-100 border border-red-500/20" }
   };
 
   return (
-    <section id="contact" className="py-20 relative overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900">
+    <section id="contact" className="py-20 relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
       {/* Background Animation */}
-      <div className="absolute inset-0 opacity-30 dark:opacity-20">
-        <div className="absolute w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob top-0 -right-4"></div>
-        <div className="absolute w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000 bottom-0 -left-4"></div>
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute w-96 h-96 bg-cyan-500/15 rounded-full mix-blend-multiply filter blur-3xl animate-blob top-0 -right-4"></div>
+        <div className="absolute w-96 h-96 bg-blue-500/12 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000 bottom-0 -left-4"></div>
       </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -133,18 +140,18 @@ const ContactForm = () => {
           whileInView="visible"
           viewport={{ once: true }}
           variants={formVariants}
-          className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90 border border-gray-200 dark:border-gray-700"
+          className="glass-card rounded-[32px] shadow-deep p-8 border border-cyan-500/10"
         >
           <motion.h2
             variants={inputVariants}
-            className="text-4xl font-bold text-center mb-8 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+            className="text-4xl font-bold text-center mb-8 text-slate-100"
           >
             Get in Touch
           </motion.h2>
 
           <motion.p
             variants={inputVariants}
-            className="text-gray-600 dark:text-gray-400 text-center mb-8"
+            className="text-slate-300 text-center mb-8"
           >
             Have a question or want to work together? Feel free to reach out!
           </motion.p>
@@ -166,7 +173,7 @@ const ContactForm = () => {
             <motion.div variants={inputVariants}>
               <label
                 htmlFor="name"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                className="block text-sm font-medium text-slate-200 mb-2"
               >
                 Name
               </label>
@@ -185,10 +192,10 @@ const ContactForm = () => {
                   required
                   className={`mt-1 block w-full rounded-lg border-2 shadow-sm 
                     ${focusedField === 'name' 
-                      ? 'border-blue-500 ring-2 ring-blue-200 dark:ring-blue-800' 
-                      : 'border-gray-300 dark:border-gray-600'} 
-                    dark:bg-gray-700 dark:text-white 
-                    focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-800
+                      ? 'border-cyan-400 ring-2 ring-cyan-300/50' 
+                      : 'border-slate-700 dark:border-slate-600'} 
+                    dark:bg-slate-950 dark:text-slate-100 
+                    focus:outline-none focus:ring-2 focus:ring-cyan-300/40
                     transition-all duration-200 ease-in-out
                     p-3`}
                   placeholder="Your name"
@@ -199,7 +206,7 @@ const ContactForm = () => {
             <motion.div variants={inputVariants}>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                className="block text-sm font-medium text-slate-200 mb-2"
               >
                 Email
               </label>
@@ -218,10 +225,10 @@ const ContactForm = () => {
                   required
                   className={`mt-1 block w-full rounded-lg border-2 shadow-sm p-3
                     ${focusedField === 'email' 
-                      ? 'border-blue-500 ring-2 ring-blue-200 dark:ring-blue-800' 
-                      : 'border-gray-300 dark:border-gray-600'} 
-                    dark:bg-gray-700 dark:text-white 
-                    focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-800
+                      ? 'border-cyan-400 ring-2 ring-cyan-300/50' 
+                      : 'border-slate-700 dark:border-slate-600'} 
+                    dark:bg-slate-950 dark:text-slate-100 
+                    focus:outline-none focus:ring-2 focus:ring-cyan-300/40
                     transition-all duration-200 ease-in-out`}
                 />
               </motion.div>
@@ -229,7 +236,7 @@ const ContactForm = () => {
 
             <motion.div variants={inputVariants}>
               <label htmlFor="message"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                className="block text-sm font-medium text-slate-200 mb-2"
               >
                 Message
               </label>
@@ -248,10 +255,10 @@ const ContactForm = () => {
                   required
                   className={`mt-1 block w-full rounded-lg border-2 shadow-sm p-3
                     ${focusedField === 'message' 
-                      ? 'border-blue-500 ring-2 ring-blue-200 dark:ring-blue-800' 
-                      : 'border-gray-300 dark:border-gray-600'} 
-                    dark:bg-gray-700 dark:text-white 
-                    focus:outline-none focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-800
+                      ? 'border-cyan-400 ring-2 ring-cyan-300/50' 
+                      : 'border-slate-700 dark:border-slate-600'} 
+                    dark:bg-slate-950 dark:text-slate-100 
+                    focus:outline-none focus:ring-2 focus:ring-cyan-300/40
                     transition-all duration-200 ease-in-out`}
                 />
               </motion.div>
@@ -261,10 +268,10 @@ const ContactForm = () => {
               <button
                 type="submit"
                 disabled={status === 'sending'}
-                className={`w-full py-3 px-4 rounded-lg text-white font-medium ${
+                className={`w-full py-3 px-4 rounded-full text-white font-semibold shadow-lg shadow-cyan-500/20 ${
                   status === 'sending'
-                    ? 'bg-gray-400'
-                    : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:opacity-90'
+                    ? 'bg-cyan-600'
+                    : 'bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400'
                 } transition-all duration-200`}
               >
                 {status === 'sending'

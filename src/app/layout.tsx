@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body className={`${inter.className} bg-white dark:bg-gray-900 transition-colors duration-300`}>
+      <body className={`${inter.className} bg-slate-950 dark:bg-slate-950 transition-colors duration-300`}>
         <script
           dangerouslySetInnerHTML={{
             __html: `

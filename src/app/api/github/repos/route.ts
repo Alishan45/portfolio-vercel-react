@@ -3,10 +3,13 @@ import { NextResponse } from 'next/server';
 const GITHUB_API_URL = 'https://api.github.com';
 const CACHE_TIME = 60 * 60; // Cache for 1 hour
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
-    const githubUsername = process.env.GITHUB_USERNAME;
-    const githubToken = process.env.GITHUB_TOKEN;
+    const githubUsername = process.env.GITHUB_USERNAME?.trim();
+    const githubToken = (process.env.GITHUB_TOKEN || process.env.NEXT_PUBLIC_GITHUB_TOKEN || '').replace(/\s+/g, '');
 
     if (!githubUsername) {
       return NextResponse.json(
@@ -15,64 +18,61 @@ export async function GET() {
       );
     }
 
-    const headers: HeadersInit = {
-      'Accept': 'application/vnd.github.v3+json',
+    const baseHeaders: HeadersInit = {
+      Accept: 'application/vnd.github.v3+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+      'User-Agent': 'portfolio-vercel-react',
     };
 
-    if (githubToken) {
-      headers['Authorization'] = `token ${githubToken}`;
+    const url = `${GITHUB_API_URL}/users/${githubUsername}/repos?sort=updated&per_page=12`;
+
+    let response = await fetch(url, {
+      headers: githubToken
+        ? { ...baseHeaders, Authorization: `Bearer ${githubToken}` }
+        : baseHeaders,
+      next: { revalidate: CACHE_TIME },
+    });
+
+    if (response.status === 401 || response.status === 403) {
+      console.warn('GitHub auth failed, retrying without token for public repos.');
+      response = await fetch(url, {
+        headers: baseHeaders,
+        next: { revalidate: CACHE_TIME },
+      });
     }
 
-    // Fetch all repositories by getting all pages
-    let allRepos: any[] = [];
-    let page = 1;
-    let hasMore = true;
-    
-    while (hasMore) {
-      const response = await fetch(
-        `${GITHUB_API_URL}/users/${githubUsername}/repos?sort=updated&per_page=100&page=${page}`,
-        {
-          headers,
-          next: { revalidate: CACHE_TIME }
-        }
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      const errorMessage = errorData?.message || response.statusText || 'Failed to fetch GitHub repositories';
+      console.error('GitHub API error:', response.status, errorMessage, errorData);
+      return NextResponse.json(
+        { error: `GitHub API error: ${errorMessage}` },
+        { status: response.status === 404 ? 404 : 500 }
       );
-      
-      if (!response.ok) {
-        // If we already have some repos, return them instead of failing completely
-        if (allRepos.length > 0) {
-          break;
-        }
-        
-        let errorMessage = 'Failed to fetch GitHub repositories';
-        try {
-          const error = await response.json();
-          errorMessage = error.message || errorMessage;
-        } catch (e) {
-          // If we can't parse the error response, use the status text
-          errorMessage = response.statusText || errorMessage;
-        }
-        return NextResponse.json(
-          { error: errorMessage },
-          { status: response.status }
-        );
-      }
-      
-      const repos = await response.json();
-      
-      // If we get fewer than 100 repos, we've reached the last page
-      if (repos.length < 100) {
-        hasMore = false;
-      }
-      
-      allRepos = allRepos.concat(repos);
-      page++;
     }
-    
-    return NextResponse.json(allRepos);
+
+    const data = await response.json();
+    if (!Array.isArray(data)) {
+      throw new Error('Unexpected GitHub response format');
+    }
+
+    const filteredRepos = data.map((repo: any) => ({
+      id: repo.id,
+      name: repo.name,
+      description: repo.description || '',
+      html_url: repo.html_url,
+      stargazers_count: repo.stargazers_count || 0,
+      forks_count: repo.forks_count || 0,
+      updated_at: repo.updated_at,
+      language: repo.language || 'Unknown',
+      topics: Array.isArray(repo.topics) ? repo.topics : [],
+    }));
+
+    return NextResponse.json(filteredRepos, { status: 200 });
   } catch (error) {
     console.error('Error fetching GitHub repositories:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Unable to load GitHub repositories at this time.' },
       { status: 500 }
     );
   }

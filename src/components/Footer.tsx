@@ -11,7 +11,7 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="bg-gray-900 text-gray-300">
+    <footer className="bg-slate-950 text-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
@@ -75,8 +75,8 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="mt-8 pt-8 border-t border-gray-800 text-center">
-          <p className="text-sm">
+        <div className="mt-8 pt-8 border-t border-slate-800 text-center">
+          <p className="text-sm text-slate-400">
             © {currentYear} Ali Shan. All rights reserved.
           </p>
         </div>

@@ -8,8 +8,8 @@ import Earth from './Earth';
 
 const Hero = () => {
   return (
-    <div className="h-screen w-full relative bg-gradient-to-b from-black via-blue-900 to-black overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.8)_100%)]" />
+    <div className="h-screen w-full relative bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.12)_0%,rgba(8,17,38,0.92)_65%)]" />
       
       <Canvas className="absolute inset-0">
         <ambientLight intensity={0.5} />
@@ -39,7 +39,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl text-gray-300 drop-shadow"
+            className="text-xl md:text-2xl text-slate-300 drop-shadow"
           >
             <TypeAnimation
               sequence={[
@@ -65,7 +65,7 @@ const Hero = () => {
           >
             <a
               href="#projects"
-              className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-colors duration-300 inline-block"
+              className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white rounded-full shadow-lg shadow-cyan-500/20 transition-all duration-300 inline-block"
             >
               View Projects
             </a>

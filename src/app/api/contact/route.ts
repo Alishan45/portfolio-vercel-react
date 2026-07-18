@@ -26,13 +26,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get email configuration from environment variables
-    const senderEmail = process.env.EMAIL;
-    const senderPassword = process.env.EMAIL_PASSWORD;
-    const recipientEmail = process.env.NEXT_PUBLIC_SEND_EMAIL;
+    // Get email configuration from environment variables.
+    // Support a single email as both sender and recipient.
+    const senderEmail = (process.env.EMAIL || process.env.SMTP_EMAIL || '').trim();
+    const senderPassword = (process.env.EMAIL_PASSWORD || process.env.SMTP_PASSWORD || '').replace(/\s+/g, '');
+    const recipientEmail = (process.env.SEND_EMAIL || process.env.NEXT_PUBLIC_SEND_EMAIL || senderEmail || '').trim();
 
-    if (!senderEmail || !senderPassword || !recipientEmail) {
-      console.error('Email configuration missing');
+    if (!senderEmail || !senderPassword) {
+      console.error('Email configuration missing:', {
+        senderEmail: !!senderEmail,
+        senderPassword: !!senderPassword,
+        recipientEmail: !!recipientEmail,
+      });
       return NextResponse.json(
         { error: 'Email service not configured' },
         { status: 500 }
@@ -65,9 +70,11 @@ export async function POST(request: NextRequest) {
 
     // Email content for the site owner
     const ownerMailOptions = {
-      from: senderEmail,
+      from: `"Portfolio Website" <${senderEmail}>`,
       to: recipientEmail,
+      replyTo: email,
       subject: `New Contact Form Message from ${name}`,
+      text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #333; border-bottom: 2px solid #4F46E5; padding-bottom: 10px;">

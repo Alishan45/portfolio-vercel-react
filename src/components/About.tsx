@@ -13,7 +13,7 @@ const About = () => {
   ];
 
   return (
-    <section id="about" className="py-20 bg-gray-50 dark:bg-gray-900">
+    <section id="about" className="py-20 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -27,16 +27,16 @@ const About = () => {
               src="/images/profilePic.png"
               alt="Ali Shan - AI Engineer"
               fill
-              className="object-cover hover:scale-105 transition-transform duration-300"
+              className="object-cover object-top hover:scale-105 transition-transform duration-300"
               priority
             />
           </div>
 
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
+            <h2 className="text-3xl font-bold text-white mb-6">
               About Me
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-6">
+            <p className="text-slate-300 mb-6">
               AI Engineer with 2+ years of experience in ML/DL, computer vision, NLP, and full-stack development. 
               Skilled in deploying AI systems on cloud & edge, with contributions to healthcare, security, and open-source.
             </p>
@@ -48,7 +48,7 @@ const About = () => {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                  className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-md shadow-lg shadow-cyan-500/20 hover:from-cyan-400 hover:to-blue-400 transition-colors"
                 >
                   {link.name}
                 </Link>

@@ -50,10 +50,11 @@ const Projects = () => {
     const loadRepos = async () => {
       try {
         setIsLoading(true);
-        const data = await fetchGitHubRepos('alishan45786');
+        const data = await fetchGitHubRepos('Alishan45');
         setRepos(data);
       } catch (err) {
-        setError('Failed to load repositories');
+        console.error('Failed to load GitHub repos:', err);
+        setError('Failed to load repositories. Please try again later.');
       } finally {
         setIsLoading(false);
       }
@@ -71,11 +72,11 @@ const Projects = () => {
 
   if (isLoading) {
     return (
-      <section className="py-16 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
+      <section className="py-16 bg-gradient-to-b from-slate-950 to-slate-900 relative overflow-hidden">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-8 text-white">Projects</h2>
           <div className="flex justify-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400/70"></div>
           </div>
         </div>
       </section>
@@ -83,12 +84,12 @@ const Projects = () => {
   }
 
   return (
-    <section className="py-16 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
+    <section className="py-16 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
       {/* Background Animation */}
-      <div className="absolute inset-0 opacity-20">
+      <div className="absolute inset-0 opacity-30">
         <div className="absolute w-full h-full">
-          <div className="absolute w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-float opacity-20 top-0 -left-4"></div>
-          <div className="absolute w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl animate-float-delayed opacity-20 top-0 -right-4"></div>
+          <div className="absolute w-96 h-96 bg-cyan-500/15 rounded-full mix-blend-multiply filter blur-3xl animate-float opacity-20 top-0 -left-4"></div>
+          <div className="absolute w-96 h-96 bg-blue-500/12 rounded-full mix-blend-multiply filter blur-3xl animate-float-delayed opacity-20 top-0 -right-4"></div>
         </div>
       </div>
 
@@ -96,10 +97,7 @@ const Projects = () => {
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600"
-        >
-          Projects
-        </motion.h2>
+            className="text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-slate-200"
 
         {/* Topics Filter */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
@@ -111,8 +109,8 @@ const Projects = () => {
               onClick={() => setSelectedTopic(topic)}
               className={`px-4 py-2 rounded-full transition-colors ${
                 selectedTopic === topic
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-800 text-gray-300 hover:bg-blue-500 hover:text-white'
+                  ? 'bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/20'
+                  : 'bg-slate-900 text-slate-300 hover:bg-slate-800 hover:text-white'
               }`}
             >
               {topic.charAt(0).toUpperCase() + topic.slice(1)}
@@ -121,7 +119,7 @@ const Projects = () => {
         </div>
 
         {error && (
-          <p className="text-red-500 text-center mb-8">{error}</p>
+          <p className="text-slate-300 text-center mb-8">{error}</p>
         )}
 
         <motion.div
@@ -140,14 +138,14 @@ const Projects = () => {
               whileHover="hover"
               className="block"
             >
-              <div className="h-full p-6 rounded-lg bg-gray-800 border border-gray-700 hover:border-blue-500 transition-colors">
-                <h3 className="text-xl font-semibold mb-2 text-white">
+              <div className="h-full p-6 rounded-[32px] glass-card hover:-translate-y-1 border border-cyan-500/10 transition-all duration-300">
+                <h3 className="text-xl font-semibold mb-2 text-slate-100">
                   {repo.name}
                 </h3>
-                <p className="text-gray-400 mb-4 h-12 line-clamp-2">
+                <p className="text-slate-300 mb-4 h-12 line-clamp-2">
                   {repo.description}
                 </p>
-                <div className="flex items-center gap-4 text-gray-400">
+                <div className="flex items-center gap-4 text-slate-300">
                   <div className="flex items-center">
                     <div 
                       className="w-3 h-3 rounded-full mr-2"
@@ -168,7 +166,7 @@ const Projects = () => {
                   {repo.topics.slice(0, 3).map((topic) => (
                     <span
                       key={topic}
-                      className="text-xs px-2 py-1 rounded-full bg-blue-900 text-blue-300"
+                      className="text-xs px-2 py-1 rounded-full bg-slate-900 text-cyan-200"
                     >
                       {topic}
                     </span>

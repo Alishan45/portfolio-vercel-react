@@ -13,8 +13,9 @@ export interface EmailData {
 
 export const sendEmailViaEmailJS = async (data: EmailData): Promise<boolean> => {
   try {
-    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
-      console.warn('EmailJS not configured, skipping client-side email');
+    const emailJSConfigured = EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY;
+    if (!emailJSConfigured) {
+      console.warn('EmailJS not configured; skipping fallback submission.');
       return false;
     }
 
