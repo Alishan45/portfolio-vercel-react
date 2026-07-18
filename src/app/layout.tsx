@@ -9,6 +9,11 @@ export const metadata: Metadata = {
   title: 'Ali Shan - AI Engineer & Full Stack Developer',
   description: 'AI Engineer with experience in ML/DL, computer vision, NLP, and full-stack development.',
   keywords: 'AI Engineer, Machine Learning, Deep Learning, Computer Vision, Full Stack Developer',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    viewportFit: 'cover',
+  },
   icons: {
     icon: '/icons/favicon.ico',
   },

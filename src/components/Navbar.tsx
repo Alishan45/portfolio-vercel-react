@@ -29,7 +29,7 @@ const Navbar = () => {
             <img src="/images/projects/logo.png" alt="AS Logo" className="h-10 w-10" />
           </Link>
 
-          <div className="flex space-x-8">
+          <div className="flex flex-wrap items-center justify-end gap-4">
             <Link href="#about" className="text-slate-100 hover:text-cyan-200 transition-colors">
               About
             </Link>

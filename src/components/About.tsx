@@ -41,7 +41,7 @@ const About = () => {
               Skilled in deploying AI systems on cloud & edge, with contributions to healthcare, security, and open-source.
             </p>
 
-            <div className="flex space-x-4">
+            <div className="flex flex-wrap gap-4">
               {socialLinks.map((link) => (
                 <Link
                   key={link.name}
