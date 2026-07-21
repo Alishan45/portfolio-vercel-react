@@ -27,16 +27,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Get email configuration from environment variables.
-    // Support a single email as both sender and recipient.
     const senderEmail = (process.env.EMAIL || process.env.SMTP_EMAIL || '').trim();
-    const senderPassword = (process.env.EMAIL_PASSWORD || process.env.SMTP_PASSWORD || '').replace(/\s+/g, '');
-    const recipientEmail = (process.env.SEND_EMAIL || process.env.NEXT_PUBLIC_SEND_EMAIL || senderEmail || '').trim();
+    const senderPassword = (process.env.EMAIL_PASSWORD || process.env.SMTP_PASSWORD || '').trim();
+    const recipientEmail = senderEmail;
 
     if (!senderEmail || !senderPassword) {
       console.error('Email configuration missing:', {
         senderEmail: !!senderEmail,
         senderPassword: !!senderPassword,
-        recipientEmail: !!recipientEmail,
       });
       return NextResponse.json(
         { error: 'Email service not configured' },
@@ -44,31 +42,35 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create transporter with more detailed configuration
+    // Create transporter with simple Gmail SMTP settings.
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       host: 'smtp.gmail.com',
       port: 587,
-      secure: false, // true for 465, false for other ports
+      secure: false,
       auth: {
         user: senderEmail,
         pass: senderPassword,
       },
       tls: {
-        rejectUnauthorized: false
-      }
+        rejectUnauthorized: false,
+      },
     });
 
-    // Verify transporter configuration
     try {
       await transporter.verify();
       console.log('SMTP server is ready to take our messages');
     } catch (verifyError) {
       console.error('SMTP verification failed:', verifyError);
-      throw new Error('Email service configuration error');
+      return NextResponse.json(
+        {
+          error:
+            'Email service authentication failed. Check EMAIL and EMAIL_PASSWORD, and use a Gmail app password if using Gmail.',
+        },
+        { status: 500 }
+      );
     }
 
-    // Email content for the site owner
     const ownerMailOptions = {
       from: `"Portfolio Website" <${senderEmail}>`,
       to: recipientEmail,
@@ -95,46 +97,32 @@ export async function POST(request: NextRequest) {
       `,
     };
 
-    // Auto-reply email for the sender
     const autoReplyOptions = {
-      from: senderEmail,
+      from: `"Portfolio Website" <${senderEmail}>`,
       to: email,
-      subject: 'Thank you for contacting Ali Shan',
+      subject: 'We received your message',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #333; border-bottom: 2px solid #4F46E5; padding-bottom: 10px;">
-            Thank You for Your Message!
+            Thanks for reaching out!
           </h2>
           <p>Hi ${name},</p>
-          <p>Thank you for reaching out through my portfolio website. I have received your message and will get back to you as soon as possible.</p>
-          
+          <p>Thank you for your message. I have received it and will get back to you as soon as possible.</p>
           <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h3 style="color: #4F46E5; margin-top: 0;">Your Message:</h3>
             <div style="background-color: white; padding: 15px; border-radius: 5px; border-left: 4px solid #4F46E5;">
               ${message.replace(/\n/g, '<br>')}
             </div>
           </div>
-          
-          <p>Best regards,<br>
-          <strong>Ali Shan</strong><br>
-          AI Engineer & Full Stack Developer</p>
-          
-          <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 12px;">
-            <p>Connect with me:</p>
-            <p>
-              <a href="https://github.com/Alishan45" style="color: #4F46E5; text-decoration: none;">GitHub</a> | 
-              <a href="https://www.linkedin.com/in/ali-shan-542246235/" style="color: #4F46E5; text-decoration: none;">LinkedIn</a> | 
-              <a href="https://www.kaggle.com/alishan456" style="color: #4F46E5; text-decoration: none;">Kaggle</a>
-            </p>
-          </div>
+          <p>I'll review your message and respond as soon as possible.</p>
+          <p>Best regards,<br/>Ali Shan</p>
         </div>
       `,
     };
 
-    // Send both emails
     await Promise.all([
       transporter.sendMail(ownerMailOptions),
-      transporter.sendMail(autoReplyOptions)
+      transporter.sendMail(autoReplyOptions),
     ]);
 
     console.log('Emails sent successfully for contact form submission:', {
@@ -144,9 +132,10 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json(
-      { 
-        success: true, 
-        message: 'Message sent successfully! Thank you for reaching out. You should receive a confirmation email shortly.' 
+      {
+        success: true,
+        message:
+          'Message sent successfully! Thank you for reaching out. You should receive a confirmation email shortly.',
       },
       { status: 200 }
     );

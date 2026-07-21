@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { sendEmailViaEmailJS } from '@/utils/emailService';
 
 interface FormData {
   name: string;
@@ -28,14 +27,18 @@ const ContactForm = () => {
 
     try {
       // Primary method: Use Next.js API route with Nodemailer
-      const response = await fetch('/api/contact', {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 15000); // 15s timeout
+      const apiUrl = new URL('/api/contact', window.location.origin).toString();
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
+        signal: controller.signal,
       });
-
+      clearTimeout(timeout);
       const data = await response.json();
       
       if (response.ok) {
@@ -46,29 +49,18 @@ const ContactForm = () => {
         setErrorMessage(primaryErrorMessage);
         throw new Error(primaryErrorMessage);
       }
-
     } catch (primaryError) {
-      console.error('Primary email method failed:', primaryError);
-      
-      try {
-        // Fallback method: Use EmailJS
-        console.log('Attempting fallback email method...');
-        const emailJSSuccess = await sendEmailViaEmailJS(formData);
-        
-        if (emailJSSuccess) {
-          console.log('Message sent successfully via EmailJS');
-          emailSent = true;
+        console.error('Email send failed:', primaryError);
+        if (primaryError instanceof Error) {
+          if (primaryError.name === 'AbortError') {
+            setErrorMessage('Network timeout while contacting the server. Please try again.');
+          } else if (primaryError.message) {
+            setErrorMessage(primaryError.message);
+          }
         } else {
-          const fallbackMessage = 'EmailJS fallback failed or is not configured.';
-          setErrorMessage(fallbackMessage);
-          throw new Error(fallbackMessage);
+          setErrorMessage('Failed to send email. Please try again later.');
         }
-      } catch (fallbackError) {
-        console.error('Fallback email method also failed:', fallbackError);
-        setErrorMessage((fallbackError instanceof Error && fallbackError.message) ? fallbackError.message : 'Message could not be sent. Please try again later.');
       }
-    }
-
     if (emailSent) {
       setStatus('success');
       setFormData({ name: '', email: '', message: '' });
