@@ -6,8 +6,8 @@ import * as THREE from 'three';
 
 const textureUrls = {
   color: '/images/earth/earth_atmos_2048.jpg',
-  specular: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_specular_2048.jpg',
-  clouds: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_clouds_1024.png',
+  specular: '/images/earth/earth_specular_2048.jpg',
+  clouds: '/images/earth/earth_clouds_1024.png',
 };
 
 type EarthTextures = {

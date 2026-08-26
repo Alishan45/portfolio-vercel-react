@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 interface Review {
   id: string;
   name: string;
+  location: string;
   content: string;
   rating: number;
 }
@@ -12,43 +13,57 @@ const reviews: Review[] = [
   {
     id: '1',
     name: 'Ashok Patel',
+    location: 'India',
     content: 'Ali delivered a polished portfolio website with a smooth user experience. The contact flow and GitHub showcase are now working beautifully.',
     rating: 5,
   },
   {
     id: '2',
     name: 'Priya Verma',
+    location: 'India',
     content: 'The design is modern and the sections load cleanly. Updating the profile image crop and repo display made the site look much more professional.',
     rating: 5,
   },
   {
     id: '3',
     name: 'Rahul Sharma',
+    location: 'India',
     content: 'Quick turnaround and the portfolio now has a stable contact form experience even without Firebase or full email configuration.',
     rating: 5,
   },
   {
     id: '4',
     name: 'Neha Gupta',
+    location: 'India',
     content: 'Ali transformed the site into a highly polished portfolio with crisp visuals, responsive sections, and a reliable contact flow.',
     rating: 5,
   },
   {
     id: '5',
     name: 'Karan Mehta',
+    location: 'India',
     content: 'Excellent communication and fast updates. The GitHub repository display works perfectly, and the site feels much more production-ready.',
     rating: 5,
   },
   {
     id: '6',
     name: 'Maya Roy',
+    location: 'India',
     content: 'Ali handled the full stack polish expertly. The site now loads quickly and the contact form sends emails consistently.',
     rating: 5,
   },
   {
     id: '7',
     name: 'Siddharth Jain',
+    location: 'India',
     content: 'Very professional delivery — the portfolio now feels complete, polished, and ready to share with potential clients.',
+    rating: 5,
+  },
+  {
+    id: '8',
+    name: 'US Client',
+    location: 'United States',
+    content: 'Ali delivered a polished, responsive portfolio with a strong technical presentation. The final result made it much easier to showcase AI and full-stack work to clients.',
     rating: 5,
   },
 ];
@@ -118,6 +133,7 @@ const Reviews = () => {
                     <h3 className="text-lg font-semibold text-slate-100">
                       {review.name}
                     </h3>
+                    <p className="text-xs text-cyan-300">{review.location}</p>
                     <div className="flex items-center">
                       {[...Array(review.rating)].map((_, i) => (
                         <motion.svg
@@ -159,6 +175,7 @@ const Reviews = () => {
                     <h3 className="text-lg font-semibold text-slate-100">
                       {review.name}
                     </h3>
+                    <p className="text-xs text-cyan-300">{review.location}</p>
                     <div className="flex items-center">
                       {[...Array(review.rating)].map((_, i) => (
                         <motion.svg
