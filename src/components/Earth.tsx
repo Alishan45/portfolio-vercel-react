@@ -5,15 +5,15 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 const textureUrls = {
-  color: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg',
+  color: '/images/earth/earth_atmos_2048.jpg',
   specular: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_specular_2048.jpg',
   clouds: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_clouds_1024.png',
 };
 
 type EarthTextures = {
   color: THREE.Texture;
-  specular: THREE.Texture;
-  clouds: THREE.Texture;
+  specular?: THREE.Texture;
+  clouds?: THREE.Texture;
 };
 
 const Earth = ({ ...props }) => {
@@ -29,24 +29,34 @@ const Earth = ({ ...props }) => {
       loader.load(url, resolve, undefined, reject);
     });
 
-    Promise.all([
-      loadTexture(textureUrls.color),
-      loadTexture(textureUrls.specular),
-      loadTexture(textureUrls.clouds),
-    ])
-      .then(([color, specular, clouds]) => {
+    loadTexture(textureUrls.color)
+      .then((color) => {
         if (!cancelled) {
-          setTextures({ color, specular, clouds });
+          setTextures({ color });
         }
       })
-      .catch(() => {
-        // The globe remains usable with its material fallback when the CDN is unavailable.
-      })
+      .catch(() => undefined)
       .finally(() => {
         if (!cancelled) {
           setIsLoading(false);
         }
       });
+
+    Promise.allSettled([
+      loadTexture(textureUrls.specular),
+      loadTexture(textureUrls.clouds),
+    ]).then(([specularResult, cloudsResult]) => {
+      if (cancelled) return;
+
+      setTextures((current) => {
+        if (!current) return current;
+        return {
+          ...current,
+          specular: specularResult.status === 'fulfilled' ? specularResult.value : undefined,
+          clouds: cloudsResult.status === 'fulfilled' ? cloudsResult.value : undefined,
+        };
+      });
+    });
 
     return () => {
       cancelled = true;
@@ -96,14 +106,16 @@ const Earth = ({ ...props }) => {
       </mesh>
 
       {/* Clouds */}
-      <mesh ref={cloudsRef}>
-        <sphereGeometry args={[2.42, 64, 64]} />
-        <meshPhongMaterial
-          map={textures.clouds}
-          transparent={true}
-          opacity={0.4}
-        />
-      </mesh>
+      {textures.clouds && (
+        <mesh ref={cloudsRef}>
+          <sphereGeometry args={[2.42, 64, 64]} />
+          <meshPhongMaterial
+            map={textures.clouds}
+            transparent={true}
+            opacity={0.4}
+          />
+        </mesh>
+      )}
 
       {/* Stars */}
       <Stars />
