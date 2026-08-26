@@ -2,20 +2,56 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
+
+const textureUrls = {
+  color: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg',
+  specular: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_specular_2048.jpg',
+  clouds: 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_clouds_1024.png',
+};
+
+type EarthTextures = {
+  color: THREE.Texture;
+  specular: THREE.Texture;
+  clouds: THREE.Texture;
+};
 
 const Earth = ({ ...props }) => {
   const groupRef = useRef<THREE.Group>(null);
   const cloudsRef = useRef<THREE.Mesh>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [textures, setTextures] = useState<EarthTextures | null>(null);
 
-  const [colorMap, bumpMap, specularMap, cloudsMap] = useTexture([
-    'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg',
-    'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg',
-    'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_specular_2048.jpg',
-    'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_clouds_1024.png'
-  ], () => setIsLoading(false));
+  useEffect(() => {
+    let cancelled = false;
+    const loader = new THREE.TextureLoader();
+    const loadTexture = (url: string) => new Promise<THREE.Texture>((resolve, reject) => {
+      loader.load(url, resolve, undefined, reject);
+    });
+
+    Promise.all([
+      loadTexture(textureUrls.color),
+      loadTexture(textureUrls.specular),
+      loadTexture(textureUrls.clouds),
+    ])
+      .then(([color, specular, clouds]) => {
+        if (!cancelled) {
+          setTextures({ color, specular, clouds });
+        }
+      })
+      .catch(() => {
+        // The globe remains usable with its material fallback when the CDN is unavailable.
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useFrame(({ clock, pointer }) => {
     if (groupRef.current) {
@@ -45,16 +81,16 @@ const Earth = ({ ...props }) => {
     );
   }
 
-  return (
+  return textures ? (
     <group ref={groupRef} {...props}>
       {/* Earth */}
       <mesh>
         <sphereGeometry args={[2.4, 64, 64]} />
         <meshPhongMaterial 
-          map={colorMap}
-          bumpMap={bumpMap}
+          map={textures.color}
+          bumpMap={textures.color}
           bumpScale={0.05}
-          specularMap={specularMap}
+          specularMap={textures.specular}
           specular={new THREE.Color('grey')}
         />
       </mesh>
@@ -63,13 +99,21 @@ const Earth = ({ ...props }) => {
       <mesh ref={cloudsRef}>
         <sphereGeometry args={[2.42, 64, 64]} />
         <meshPhongMaterial
-          map={cloudsMap}
+          map={textures.clouds}
           transparent={true}
           opacity={0.4}
         />
       </mesh>
 
       {/* Stars */}
+      <Stars />
+    </group>
+  ) : (
+    <group ref={groupRef} {...props}>
+      <mesh>
+        <sphereGeometry args={[2.4, 64, 64]} />
+        <meshPhongMaterial color={new THREE.Color('#1e40af')} shininess={10} />
+      </mesh>
       <Stars />
     </group>
   );

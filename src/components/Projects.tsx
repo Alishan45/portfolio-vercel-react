@@ -98,6 +98,9 @@ const Projects = () => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
             className="text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-slate-200"
+        >
+          My Projects
+        </motion.h2>
 
         {/* Topics Filter */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
