@@ -12,21 +12,21 @@ interface Review {
 const reviews: Review[] = [
   {
     id: '1',
-    name: 'USA Client',
+    name: 'Ethan Carter',
     location: 'United States',
     content: 'Ali delivered a polished, responsive portfolio with a strong technical presentation. The final result made it much easier to showcase AI and full-stack work to clients.',
     rating: 5,
   },
   {
     id: '2',
-    name: 'UK Client',
+    name: 'Oliver Bennett',
     location: 'United Kingdom',
     content: 'Ali communicated clearly throughout the project and delivered a professional website that presents technical work with clarity and confidence.',
     rating: 5,
   },
   {
     id: '3',
-    name: 'European Client',
+    name: 'Sofia Muller',
     location: 'Europe',
     content: 'The portfolio is fast, visually engaging, and easy to navigate. Ali transformed complex AI and machine learning projects into a clear client-facing presentation.',
     rating: 5,
