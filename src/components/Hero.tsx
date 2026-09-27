@@ -16,8 +16,13 @@ const FallbackEarth = () => (
 
 const Hero = () => {
   return (
-    <div className="h-screen w-full relative bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.12)_0%,rgba(8,17,38,0.92)_65%)]" />
+    <div className="h-screen w-full relative bg-slate-950 overflow-hidden">
+      {/* Premium ambient glows */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob" />
+      <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-600/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob animation-delay-2000" />
+      <div className="absolute bottom-1/4 left-1/2 -translate-x-1/2 w-[40rem] h-[40rem] bg-indigo-500/10 rounded-full mix-blend-screen filter blur-[120px] animate-blob animation-delay-4000" />
+      
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0)_0%,rgba(2,6,23,0.8)_100%)] z-0" />
       
       <Canvas className="absolute inset-0">
         <ambientLight intensity={0.5} />
@@ -36,51 +41,71 @@ const Hero = () => {
       </Canvas>
 
       <div className="absolute inset-0 flex items-center justify-center z-10">
-        <div className="text-center px-4">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-5xl md:text-8xl font-extrabold text-white mb-6 tracking-tight drop-shadow-2xl"
+        <div className="text-center px-4 w-full max-w-5xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="inline-block mb-6 px-6 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 backdrop-blur-md"
           >
-            Ali <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Shan</span>
+            <span className="text-cyan-300 font-medium tracking-wide text-sm md:text-base uppercase">Available for new opportunities</span>
+          </motion.div>
+          
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="text-6xl md:text-8xl lg:text-9xl font-extrabold text-white mb-6 tracking-tighter drop-shadow-2xl leading-tight"
+          >
+            Ali <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500">Shan</span>
           </motion.h1>
+          
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-3xl text-slate-300 drop-shadow-md font-light h-[40px] md:h-[48px]"
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-2xl md:text-4xl text-slate-300 drop-shadow-md font-light h-[40px] md:h-[60px] mb-8"
           >
             <TypeAnimation
               sequence={[
                 'Data Scientist',
                 3000,
-                'AI Engineer',
-                2000,
-                'ML Engineer',
-                2000,
+                'AI/ML Engineer',
+                3000,
                 'Full Stack Developer',
-                2000,
+                3000,
+                'Computer Vision Expert',
+                3000,
               ]}
               wrapper="span"
-              speed={50}
+              speed={40}
               repeat={Infinity}
-              className="text-cyan-100"
+              className="text-transparent bg-clip-text bg-gradient-to-r from-slate-200 to-slate-400 font-medium"
             />
           </motion.div>
+          
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6"
           >
             <a
               href="#projects"
-              className="px-8 py-4 bg-transparent border border-cyan-500/50 hover:bg-cyan-500/10 text-cyan-400 hover:text-cyan-300 rounded-full transition-all duration-300 inline-flex items-center gap-2 group backdrop-blur-sm"
+              className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold rounded-full transition-all duration-300 hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] flex items-center justify-center gap-2 group"
             >
-              <span>View Projects</span>
+              <span>Explore My Work</span>
               <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+            <a
+              href="#contact"
+              className="w-full sm:w-auto px-8 py-4 bg-slate-900/50 border border-slate-700 hover:border-cyan-500/50 text-slate-300 hover:text-cyan-300 hover:bg-slate-800/80 rounded-full transition-all duration-300 flex items-center justify-center gap-2 group backdrop-blur-md"
+            >
+              <span>Contact Me</span>
+              <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </a>
           </motion.div>

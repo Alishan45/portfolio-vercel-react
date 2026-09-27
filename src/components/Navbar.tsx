@@ -26,8 +26,8 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          <Link href="/" className="text-2xl font-bold text-white hover:opacity-80 transition-opacity relative h-12 w-12 md:h-16 md:w-16">
-            <Image src="/images/projects/logo.png" alt="Ali Shan logo" fill className="object-contain" />
+          <Link href="/" className="text-2xl font-bold text-white hover:opacity-80 transition-opacity relative h-12 w-12 md:h-16 md:w-16 rounded-full overflow-hidden">
+            <Image src="/images/projects/logo.jpg" alt="Ali Shan logo" fill className="object-cover" />
           </Link>
 
           <div className="flex flex-wrap items-center justify-end gap-4">
