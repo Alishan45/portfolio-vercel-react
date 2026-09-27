@@ -102,7 +102,7 @@ const Reviews = () => {
                     <div className="flex items-center">
                       {[...Array(review.rating)].map((_, i) => (
                         <motion.svg
-                          key={i}
+                          key={`star-${review.id}-${i}`}
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
                           transition={{ delay: i * 0.1 }}
@@ -144,7 +144,7 @@ const Reviews = () => {
                     <div className="flex items-center">
                       {[...Array(review.rating)].map((_, i) => (
                         <motion.svg
-                          key={i}
+                          key={`star-${review.id}-${i}`}
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
                           transition={{ delay: i * 0.1 }}

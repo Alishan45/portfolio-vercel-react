@@ -56,7 +56,19 @@ export async function GET() {
       throw new Error('Unexpected GitHub response format');
     }
 
-    const filteredRepos = data.map((repo: any) => ({
+    interface GitHubApiResponse {
+      id: number;
+      name: string;
+      description: string | null;
+      stargazers_count: number;
+      forks_count: number;
+      html_url: string;
+      language: string | null;
+      topics: string[];
+      updated_at: string;
+    }
+
+    const filteredRepos = data.map((repo: GitHubApiResponse) => ({
       id: repo.id,
       name: repo.name,
       description: repo.description || '',

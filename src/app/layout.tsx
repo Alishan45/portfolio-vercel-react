@@ -80,7 +80,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
+      <head>
+        <link rel="preload" href="/images/earth/earth_atmos_2048.jpg" as="image" />
+        <link rel="preload" href="/images/earth/earth_specular_2048.jpg" as="image" />
+        <link rel="preload" href="/images/earth/earth_clouds_1024.png" as="image" />
+      </head>
       <body className={`${inter.className} bg-slate-950 dark:bg-slate-950 transition-colors duration-300`}>
         <script
           dangerouslySetInnerHTML={{

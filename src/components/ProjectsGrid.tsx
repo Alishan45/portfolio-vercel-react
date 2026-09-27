@@ -7,17 +7,6 @@ import Link from 'next/link';
 
 type ProjectCategory = 'ALL' | 'AI/ML' | 'COMPUTER_VISION' | 'WEB_DEVELOPMENT' | 'OTHER';
 
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  category: string;
-  techStack: string[];
-  githubLink: string;
-  demoLink?: string;
-}
-
 import { projects } from '@/data/projects';
 
 type ProjectType = {
@@ -108,23 +97,23 @@ const ProjectsGrid = () => {
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  <Link
+                  <a
                     href={project.githubLink}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-block px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded hover:from-cyan-400 hover:to-blue-400 transition-colors"
                   >
                     View on GitHub
-                  </Link>
+                  </a>
                   {project.demoLink && (
-                    <Link
+                    <a
                       href={project.demoLink}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-block px-4 py-2 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded hover:from-emerald-400 hover:to-cyan-400 transition-colors"
                     >
                       Live Demo
-                    </Link>
+                    </a>
                   )}
                 </div>
               </div>

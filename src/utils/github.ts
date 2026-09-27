@@ -9,6 +9,17 @@ export interface GitHubRepo {
   updatedAt: string;
 }
 
+interface GitHubApiResponse {
+  name: string;
+  description: string | null;
+  stargazers_count: number;
+  forks_count: number;
+  html_url: string;
+  language: string | null;
+  topics: string[];
+  updated_at: string;
+}
+
 const GITHUB_API_URL = 'https://api.github.com';
 const GITHUB_TOKEN = (process.env.NEXT_PUBLIC_GITHUB_TOKEN || process.env.GITHUB_TOKEN || '').replace(/\s+/g, '');
 
@@ -37,9 +48,9 @@ export const fetchGitHubRepos = async (username: string): Promise<GitHubRepo[]> 
     const repos = await response.json();
     return Array.isArray(repos)
       ? repos
-          .sort((a: any, b: any) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
+          .sort((a: GitHubApiResponse, b: GitHubApiResponse) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
           .slice(0, 6)
-          .map((repo: any) => ({
+          .map((repo: GitHubApiResponse) => ({
             name: repo.name,
             description: repo.description || '',
             stars: repo.stargazers_count || 0,
