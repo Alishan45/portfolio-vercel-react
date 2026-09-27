@@ -34,175 +34,94 @@ const reviews: Review[] = [
 ];
 
 const Reviews = () => {
-  const midIndex = Math.ceil(reviews.length / 2);
-  const firstRowReviews = reviews.slice(0, midIndex);
-  const secondRowReviews = reviews.slice(midIndex);
+  // Duplicate reviews multiple times to ensure seamless infinite scrolling on ultra-wide screens
+  const marqueeReviews = [...reviews, ...reviews, ...reviews, ...reviews];
 
   const reviewVariants = {
-    hidden: {
-      opacity: 0,
-      y: 20,
-      scale: 0.95,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: 'spring' as const,
-        stiffness: 100,
-        damping: 10,
-      },
-    },
-    hover: {
-      scale: 1.03,
-      boxShadow: '0 10px 20px rgba(0,0,0,0.1)',
-      transition: {
-        type: 'spring' as const,
-        stiffness: 400,
-        damping: 10,
-      },
-    },
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: { opacity: 1, scale: 1, transition: { type: 'spring' as const, stiffness: 100, damping: 10 } }
   };
 
   return (
-    <section id="reviews" className="py-12 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute w-96 h-96 bg-cyan-500/15 rounded-full mix-blend-multiply filter blur-3xl animate-blob top-0 -left-4"></div>
-        <div className="absolute w-96 h-96 bg-blue-500/12 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000 top-0 -right-4"></div>
-        <div className="absolute w-96 h-96 bg-emerald-400/12 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000 bottom-0 left-1/2 transform -translate-x-1/2"></div>
+    <section id="reviews" className="py-24 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
+      <div className="absolute inset-0 opacity-30 pointer-events-none">
+        <div className="absolute w-[500px] h-[500px] bg-cyan-500/10 rounded-full mix-blend-multiply filter blur-[100px] animate-blob top-0 -left-20"></div>
+        <div className="absolute w-[500px] h-[500px] bg-blue-500/10 rounded-full mix-blend-multiply filter blur-[100px] animate-blob animation-delay-2000 top-20 -right-20"></div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 relative z-10 mb-16">
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-4xl font-bold text-center mb-8 text-white"
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-4xl md:text-5xl font-bold text-center text-white tracking-tight"
         >
-          Client Reviews
+          Client <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Reviews</span>
         </motion.h2>
+        <p className="text-slate-400 text-center mt-4 max-w-2xl mx-auto">
+          See what people are saying about my work, communication, and project delivery.
+        </p>
+      </div>
 
-        <div className="overflow-hidden py-4">
-          <div className="flex animate-marquee-left whitespace-nowrap">
-            {[...firstRowReviews, ...firstRowReviews].map((review, index) => (
-              <motion.div
-                key={`${review.id}-${index}`}
-                variants={reviewVariants}
-                initial="hidden"
-                animate="visible"
-                className="group relative bg-slate-900/40 p-8 rounded-[32px] overflow-hidden hover:-translate-y-2 transition-all duration-500 border border-slate-700/50 hover:border-cyan-500/30 hover:shadow-[0_20px_40px_-15px_rgba(34,211,238,0.15)] mx-4 inline-flex flex-col w-[350px] flex-shrink-0 backdrop-blur-sm"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="flex items-center mb-4">
-                  <div className="ml-3 flex-grow">
-                    <h3 className="text-lg font-semibold text-slate-100">
-                      {review.name}
-                    </h3>
-                    <p className="text-xs text-cyan-300">{review.location}</p>
-                    <div className="flex items-center">
-                      {[...Array(review.rating)].map((_, i) => (
-                        <motion.svg
-                          key={`star-${review.id}-${i}`}
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ delay: i * 0.1 }}
-                          className="w-5 h-5 text-yellow-400 fill-current"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                        >
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </motion.svg>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <p className="text-slate-300 line-clamp-5 overflow-hidden">
-                  {review.content}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+      <div className="overflow-hidden py-10 relative">
+        {/* Gradient overlays for smooth fading edges */}
+        <div className="absolute top-0 left-0 w-16 md:w-48 h-full bg-gradient-to-r from-slate-950 to-transparent z-20 pointer-events-none"></div>
+        <div className="absolute top-0 right-0 w-16 md:w-48 h-full bg-gradient-to-l from-slate-950 to-transparent z-20 pointer-events-none"></div>
+        
+        <div className="flex animate-marquee-continuous whitespace-nowrap hover:[animation-play-state:paused] pb-4">
+          {marqueeReviews.map((review, index) => (
+            <motion.div
+              key={`${review.id}-${index}`}
+              variants={reviewVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "50px" }}
+              className="group relative bg-slate-900/50 p-8 md:p-10 rounded-[32px] overflow-hidden transition-all duration-500 border border-slate-700/50 hover:border-cyan-500/50 shadow-lg hover:shadow-[0_0_40px_-10px_rgba(34,211,238,0.3)] mx-4 inline-flex flex-col w-[350px] md:w-[400px] flex-shrink-0 backdrop-blur-md hover:-translate-y-2"
+            >
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-blue-600 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+              
+              {/* Quote Icon Background */}
+              <div className="absolute -top-6 right-4 text-9xl text-cyan-500/10 font-serif leading-none select-none pointer-events-none">
+                "
+              </div>
 
-        <div className="overflow-hidden py-4">
-          <div className="flex animate-marquee-right whitespace-nowrap">
-            {[...secondRowReviews, ...secondRowReviews].map((review, index) => (
-              <motion.div
-                key={`${review.id}-${index}`}
-                variants={reviewVariants}
-                initial="hidden"
-                animate="visible"
-                className="group relative bg-slate-900/40 p-8 rounded-[32px] overflow-hidden hover:-translate-y-2 transition-all duration-500 border border-slate-700/50 hover:border-cyan-500/30 hover:shadow-[0_20px_40px_-15px_rgba(34,211,238,0.15)] mx-4 inline-flex flex-col w-[350px] flex-shrink-0 backdrop-blur-sm"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="flex items-center mb-4">
-                  <div className="ml-3 flex-grow">
-                    <h3 className="text-lg font-semibold text-slate-100">
-                      {review.name}
-                    </h3>
-                    <p className="text-xs text-cyan-300">{review.location}</p>
-                    <div className="flex items-center">
-                      {[...Array(review.rating)].map((_, i) => (
-                        <motion.svg
-                          key={`star-${review.id}-${i}`}
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ delay: i * 0.1 }}
-                          className="w-5 h-5 text-yellow-400 fill-current"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                        >
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </motion.svg>
-                      ))}
-                    </div>
-                  </div>
+              <div className="flex items-center mb-6 relative z-10">
+                <div className="flex-grow">
+                  <h3 className="text-xl font-bold text-white mb-1">
+                    {review.name}
+                  </h3>
+                  <p className="text-sm text-cyan-400 font-medium">{review.location}</p>
                 </div>
-                <p className="text-slate-300 line-clamp-5 overflow-hidden">
-                  {review.content}
-                </p>
-              </motion.div>
-            ))}
-          </div>
+                <div className="flex items-center bg-slate-950/50 px-3 py-1.5 rounded-full border border-slate-800">
+                  <span className="text-yellow-400 font-bold mr-1 text-sm">{review.rating}.0</span>
+                  <svg className="w-4 h-4 text-yellow-400 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                </div>
+              </div>
+              <p className="text-slate-300 leading-relaxed relative z-10 whitespace-normal text-sm md:text-base">
+                "{review.content}"
+              </p>
+            </motion.div>
+          ))}
         </div>
       </div>
 
       <style jsx>{`
-        @keyframes marquee-left {
+        @keyframes marquee-continuous {
           0% {
             transform: translateX(0);
           }
           100% {
+            /* Scroll exactly half the width since we duplicated the array by 4 times, 2 times is half */
             transform: translateX(-50%);
           }
         }
 
-        @keyframes marquee-right {
-          0% {
-            transform: translateX(-50%);
-          }
-          100% {
-            transform: translateX(0);
-          }
-        }
-
-        .animate-marquee-left {
+        .animate-marquee-continuous {
           display: flex;
-          animation: marquee-left 30s linear infinite;
+          animation: marquee-continuous 40s linear infinite;
           width: max-content;
-        }
-
-        .animate-marquee-right {
-          display: flex;
-          animation: marquee-right 15s linear infinite;
-          width: max-content;
-        }
-
-        .line-clamp-5 {
-          display: -webkit-box;
-          -webkit-line-clamp: 5;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
         }
 
         @keyframes blob {
@@ -226,10 +145,6 @@ const Reviews = () => {
 
         .animation-delay-2000 {
           animation-delay: 2s;
-        }
-
-        .animation-delay-4000 {
-          animation-delay: 4s;
         }
       `}</style>
     </section>

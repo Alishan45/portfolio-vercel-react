@@ -22,8 +22,8 @@ const Footer = () => {
             </p>
           </div>
           <div>
-            <h3 className="text-lg font-semibold mb-6 text-slate-200">Quick Links</h3>
-            <ul className="space-y-3">
+            <h3 className="text-lg font-semibold mb-4 md:mb-6 text-slate-200">Quick Links</h3>
+            <ul className="flex flex-wrap gap-4 md:flex-col md:gap-0 md:space-y-3">
               {['About', 'Projects', 'Reviews', 'Contact'].map((item) => (
                 <li key={item}>
                   <Link href={`#${item.toLowerCase()}`} className="text-slate-400 hover:text-cyan-400 text-sm transition-colors flex items-center gap-2">
@@ -35,8 +35,8 @@ const Footer = () => {
             </ul>
           </div>
           <div>
-            <h3 className="text-lg font-semibold mb-6 text-slate-200">Connect</h3>
-            <div className="flex flex-col space-y-3">
+            <h3 className="text-lg font-semibold mb-4 md:mb-6 text-slate-200">Connect</h3>
+            <div className="flex flex-wrap gap-4 md:flex-col md:gap-0 md:space-y-3">
               {[
                 { name: 'GitHub', url: 'https://github.com/Alishan45' },
                 { name: 'LinkedIn', url: 'https://www.linkedin.com/in/ali-shan-542246235/' },
