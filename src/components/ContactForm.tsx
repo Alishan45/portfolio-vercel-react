@@ -132,7 +132,7 @@ const ContactForm = () => {
           whileInView="visible"
           viewport={{ once: true }}
           variants={formVariants}
-          className="glass-card rounded-[32px] shadow-deep p-8 border border-cyan-500/10"
+          className="relative bg-slate-900/40 backdrop-blur-xl rounded-[32px] shadow-[0_0_40px_-10px_rgba(0,0,0,0.5)] p-8 md:p-12 border border-slate-700/50"
         >
           <motion.h2
             variants={inputVariants}
@@ -182,14 +182,13 @@ const ContactForm = () => {
                   onFocus={() => setFocusedField('name')}
                   onBlur={() => setFocusedField(null)}
                   required
-                  className={`mt-1 block w-full rounded-lg border-2 shadow-sm 
+                  className={`mt-1 block w-full rounded-xl border-2 shadow-sm 
                     ${focusedField === 'name' 
-                      ? 'border-cyan-400 ring-2 ring-cyan-300/50' 
-                      : 'border-slate-700 dark:border-slate-600'} 
-                    dark:bg-slate-950 dark:text-slate-100 
-                    focus:outline-none focus:ring-2 focus:ring-cyan-300/40
-                    transition-all duration-200 ease-in-out
-                    p-3`}
+                      ? 'border-cyan-400 ring-4 ring-cyan-400/20 bg-slate-900/80' 
+                      : 'border-slate-700/50 dark:border-slate-700/50 bg-slate-950/50'} 
+                    dark:text-slate-100 text-slate-100
+                    focus:outline-none transition-all duration-300 ease-in-out
+                    p-4 text-base placeholder-slate-500`}
                   placeholder="Your name"
                 />
               </motion.div>
@@ -215,13 +214,13 @@ const ContactForm = () => {
                   onFocus={() => setFocusedField('email')}
                   onBlur={() => setFocusedField(null)}
                   required
-                  className={`mt-1 block w-full rounded-lg border-2 shadow-sm p-3
+                  className={`mt-1 block w-full rounded-xl border-2 shadow-sm p-4 text-base placeholder-slate-500
                     ${focusedField === 'email' 
-                      ? 'border-cyan-400 ring-2 ring-cyan-300/50' 
-                      : 'border-slate-700 dark:border-slate-600'} 
-                    dark:bg-slate-950 dark:text-slate-100 
-                    focus:outline-none focus:ring-2 focus:ring-cyan-300/40
-                    transition-all duration-200 ease-in-out`}
+                      ? 'border-cyan-400 ring-4 ring-cyan-400/20 bg-slate-900/80' 
+                      : 'border-slate-700/50 dark:border-slate-700/50 bg-slate-950/50'} 
+                    dark:text-slate-100 text-slate-100
+                    focus:outline-none transition-all duration-300 ease-in-out`}
+                  placeholder="hello@example.com"
                 />
               </motion.div>
             </motion.div>
@@ -245,13 +244,13 @@ const ContactForm = () => {
                   onFocus={() => setFocusedField('message')}
                   onBlur={() => setFocusedField(null)}
                   required
-                  className={`mt-1 block w-full rounded-lg border-2 shadow-sm p-3
+                  className={`mt-1 block w-full rounded-xl border-2 shadow-sm p-4 text-base placeholder-slate-500
                     ${focusedField === 'message' 
-                      ? 'border-cyan-400 ring-2 ring-cyan-300/50' 
-                      : 'border-slate-700 dark:border-slate-600'} 
-                    dark:bg-slate-950 dark:text-slate-100 
-                    focus:outline-none focus:ring-2 focus:ring-cyan-300/40
-                    transition-all duration-200 ease-in-out`}
+                      ? 'border-cyan-400 ring-4 ring-cyan-400/20 bg-slate-900/80' 
+                      : 'border-slate-700/50 dark:border-slate-700/50 bg-slate-950/50'} 
+                    dark:text-slate-100 text-slate-100
+                    focus:outline-none transition-all duration-300 ease-in-out resize-none`}
+                  placeholder="How can I help you?"
                 />
               </motion.div>
             </motion.div>
@@ -260,11 +259,11 @@ const ContactForm = () => {
               <button
                 type="submit"
                 disabled={status === 'sending'}
-                className={`w-full py-3 px-4 rounded-full text-white font-semibold shadow-lg shadow-cyan-500/20 ${
+                className={`w-full py-4 px-6 rounded-xl text-white font-bold text-lg shadow-[0_0_20px_rgba(34,211,238,0.2)] hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] ${
                   status === 'sending'
-                    ? 'bg-cyan-600'
-                    : 'bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400'
-                } transition-all duration-200`}
+                    ? 'bg-cyan-600 cursor-not-allowed opacity-70'
+                    : 'bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 hover:-translate-y-1'
+                } transition-all duration-300`}
               >
                 {status === 'sending'
                   ? 'Sending...'

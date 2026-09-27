@@ -145,8 +145,9 @@ const GitHubProjects = () => {
               rel="noopener noreferrer"
               variants={itemVariants}
               whileHover="hover"
-              className="glass-card rounded-[28px] p-6 shadow-deep hover:-translate-y-1 hover:shadow-cyan-500/15 transition-all duration-300 border border-cyan-400/10"
+              className="group relative bg-slate-900/40 rounded-[32px] p-8 overflow-hidden hover:-translate-y-2 transition-all duration-500 border border-slate-700/50 hover:border-cyan-500/30 hover:shadow-[0_20px_40px_-15px_rgba(34,211,238,0.15)] flex flex-col h-full backdrop-blur-sm"
             >
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <h3 className="text-xl font-semibold mb-2 text-slate-100">
                 {repo.name}
               </h3>
@@ -187,7 +188,7 @@ const GitHubProjects = () => {
                   {repo.topics.slice(0, 3).map(topic => (
                     <span
                       key={topic}
-                      className="px-2 py-1 text-xs rounded-full bg-slate-900 text-cyan-200"
+                      className="px-3 py-1 text-xs font-medium bg-cyan-950/30 text-cyan-100 rounded-full border border-cyan-800/50"
                     >
                       {topic}
                     </span>
