@@ -90,9 +90,9 @@ const Reviews = () => {
                 variants={reviewVariants}
                 initial="hidden"
                 animate="visible"
-                whileHover="hover"
-                className="glass-card p-6 rounded-[28px] shadow-deep transform transition-all duration-300 bg-opacity-90 border border-cyan-400/10 mx-4 inline-block w-80 flex-shrink-0"
+                className="group relative bg-slate-900/40 p-8 rounded-[32px] overflow-hidden hover:-translate-y-2 transition-all duration-500 border border-slate-700/50 hover:border-cyan-500/30 hover:shadow-[0_20px_40px_-15px_rgba(34,211,238,0.15)] mx-4 inline-flex flex-col w-[350px] flex-shrink-0 backdrop-blur-sm"
               >
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="flex items-center mb-4">
                   <div className="ml-3 flex-grow">
                     <h3 className="text-lg font-semibold text-slate-100">
@@ -132,9 +132,9 @@ const Reviews = () => {
                 variants={reviewVariants}
                 initial="hidden"
                 animate="visible"
-                whileHover="hover"
-                className="glass-card p-6 rounded-[28px] shadow-deep transform transition-all duration-300 bg-opacity-90 border border-cyan-400/10 mx-4 inline-block w-80 flex-shrink-0"
+                className="group relative bg-slate-900/40 p-8 rounded-[32px] overflow-hidden hover:-translate-y-2 transition-all duration-500 border border-slate-700/50 hover:border-cyan-500/30 hover:shadow-[0_20px_40px_-15px_rgba(34,211,238,0.15)] mx-4 inline-flex flex-col w-[350px] flex-shrink-0 backdrop-blur-sm"
               >
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="flex items-center mb-4">
                   <div className="ml-3 flex-grow">
                     <h3 className="text-lg font-semibold text-slate-100">
@@ -194,7 +194,7 @@ const Reviews = () => {
 
         .animate-marquee-right {
           display: flex;
-          animation: marquee-right 30s linear infinite;
+          animation: marquee-right 15s linear infinite;
           width: max-content;
         }
 

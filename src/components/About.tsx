@@ -53,8 +53,10 @@ const About = () => {
             <div className="relative h-[450px] w-full rounded-2xl overflow-hidden ring-1 ring-white/10 bg-slate-900">
               <Image
                 src="/images/profile.jpg"
-                alt="Ali Shan - AI Engineer"
+                alt="Ali Shan - Expert Data Scientist and AI Engineer"
                 fill
+                priority
+                quality={90}
                 className="object-cover object-top hover:scale-105 transition-transform duration-700 ease-in-out"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
