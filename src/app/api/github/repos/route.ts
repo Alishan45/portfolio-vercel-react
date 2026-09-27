@@ -63,6 +63,7 @@ export async function GET() {
       stargazers_count: number;
       forks_count: number;
       html_url: string;
+      homepage: string | null;
       language: string | null;
       topics: string[];
       updated_at: string;
@@ -73,6 +74,7 @@ export async function GET() {
       name: repo.name,
       description: repo.description || '',
       html_url: repo.html_url,
+      homepage: repo.homepage,
       stargazers_count: repo.stargazers_count || 0,
       forks_count: repo.forks_count || 0,
       updated_at: repo.updated_at,

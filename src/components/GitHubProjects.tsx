@@ -8,6 +8,7 @@ interface GitHubRepo {
   name: string;
   description: string;
   html_url: string;
+  homepage?: string | null;
   stargazers_count: number;
   forks_count: number;
   updated_at: string;
@@ -140,7 +141,7 @@ const GitHubProjects = () => {
           {repos.map(repo => (
             <motion.a
               key={repo.id}
-              href={repo.html_url}
+              href={repo.homepage || repo.html_url}
               target="_blank"
               rel="noopener noreferrer"
               variants={itemVariants}

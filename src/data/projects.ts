@@ -6,7 +6,7 @@ export const projects = [
     image: '/images/projects/plant.jpg',
     category: 'AI/ML',
     techStack: ['Python', 'TensorFlow', 'Streamlit', 'Computer Vision'],
-    githubLink: 'https://github.com/Alishan45/Plant-Disease-Detection',
+    githubLink: 'https://github.com/Alishan45/plant_desease_classifier',
     demoLink: 'https://plantdiseaseclassifier4farmers.streamlit.app/',
   },
   {
@@ -16,7 +16,7 @@ export const projects = [
     image: '/images/cat_dog-classifier.jpg',
     category: 'AI/ML',
     techStack: ['Python', 'TensorFlow', 'CNN', 'Streamlit'],
-    githubLink: 'https://github.com/Alishan45/Cat-Dog-Classifier',
+    githubLink: 'https://github.com/Alishan45/cat_dogClassifier',
     demoLink: 'https://cat-dog-classifier45.streamlit.app/',
   },
   {
@@ -26,7 +26,7 @@ export const projects = [
     image: '/images/heartdiseaseDetector.jpeg',
     category: 'AI/ML',
     techStack: ['Python', 'Medical Imaging', 'Streamlit', 'Deep Learning'],
-    githubLink: 'https://github.com/Alishan45/Heart-Disease-Detection',
+    githubLink: 'https://github.com/Alishan45/HeartVision-AI',
     demoLink: 'https://heartvision-ai.streamlit.app/',
   },
   {
@@ -36,7 +36,7 @@ export const projects = [
     image: '/images/projects/portfolio.jpg',
     category: 'AI/ML',
     techStack: ['Python', 'NLP', 'Transformers', 'Streamlit'],
-    githubLink: 'https://github.com/Alishan45/Emotion-Detector',
+    githubLink: 'https://github.com/Alishan45/futuristic-emotion-detector',
     demoLink: 'https://futuristic-emotion-detector.streamlit.app/',
   },
   {
@@ -46,7 +46,7 @@ export const projects = [
     image: '/images/projects/medgpt.PNG',
     category: 'AI/ML',
     techStack: ['Python', 'GPT-3', 'FastAPI', 'React'],
-    githubLink: 'https://github.com/Alishan45/MedGPT',
+    githubLink: 'https://github.com/Alishan45/End-to-End-MedGPT',
   },
   {
     id: 6,
@@ -55,7 +55,7 @@ export const projects = [
     image: '/images/projects/weapon.png',
     category: 'COMPUTER_VISION',
     techStack: ['Python', 'YOLOv5', 'OpenCV', 'Real-time Detection', 'Thermal Vision'],
-    githubLink: 'https://github.com/Alishan45/Weapon-Detection-System',
+    githubLink: 'https://github.com/Alishan45/conceal-weaponDetection',
   },
   {
     id: 7,
@@ -64,7 +64,7 @@ export const projects = [
     image: '/images/projects/houseDetectionViaSatillite.jpg',
     category: 'COMPUTER_VISION',
     techStack: ['Python', 'YOLOv5', 'PyTorch', 'Satellite Image Processing'],
-    githubLink: 'https://github.com/Alishan45/House-Detection-Via-Satillite',
+    githubLink: 'https://github.com/Alishan45/satilliteHouseDetection',
   },
   {
     id: 8,
@@ -73,7 +73,7 @@ export const projects = [
     image: '/images/projects/Skincancer.png',
     category: 'AI/ML',
     techStack: ['Python', 'TensorFlow', 'CNN', 'Medical Imaging'],
-    githubLink: 'https://github.com/Alishan45/Skin-Cancer-Detection',
+    githubLink: 'https://github.com/Alishan45/skinCancerClassifcation',
   },
   {
     id: 9,
@@ -82,7 +82,7 @@ export const projects = [
     image: '/images/projects/detentalImplant.jpg',
     category: 'COMPUTER_VISION',
     techStack: ['Python', 'YOLOv5', 'Medical Imaging', 'Dental Diagnostics'],
-    githubLink: 'https://github.com/Alishan45/Dental-Implant-Detection',
+    githubLink: 'https://github.com/Alishan45/dental-implant-detection-',
   },
   {
     id: 10,
@@ -91,7 +91,7 @@ export const projects = [
     image: '/images/projects/GenderClassificationViaEye.jpg',
     category: 'COMPUTER_VISION',
     techStack: ['Python', 'TensorFlow', 'OpenCV', 'Deep Learning'],
-    githubLink: 'https://github.com/Alishan45/Gender-Classification-Via-Eye',
+    githubLink: 'https://github.com/Alishan45/eye-gender-classifier',
   },
   {
     id: 11,
@@ -100,7 +100,7 @@ export const projects = [
     image: '/images/heartdiseaseDetector.jpeg',
     category: 'AI/ML',
     techStack: ['Python', 'Scikit-learn', 'RandomForest', 'Healthcare Analytics'],
-    githubLink: 'https://github.com/Alishan45/Heart-Disease-Detection',
+    githubLink: 'https://github.com/Alishan45/HeartVision-AI',
   },
   {
     id: 12,
@@ -109,7 +109,7 @@ export const projects = [
     image: '/images/projects/portfolio.jpg',
     category: 'AI/ML',
     techStack: ['Python', 'NLP', 'Transformers', 'Sentiment Analysis'],
-    githubLink: 'https://github.com/Alishan45/Emotion-Detector',
+    githubLink: 'https://github.com/Alishan45/futuristic-emotion-detector',
   },
   {
     id: 13,
@@ -145,6 +145,6 @@ export const projects = [
     image: '/images/projects/portfolio.jpg',
     category: 'WEB_DEVELOPMENT',
     techStack: ['Next.js', 'Three.js', 'Firebase', 'Tailwind CSS'],
-    githubLink: 'https://github.com/Alishan45/portfolio',
+    githubLink: 'https://github.com/Alishan45/portfolio-website',
   },
 ] as const;

@@ -15,6 +15,7 @@ interface GitHubApiResponse {
   stargazers_count: number;
   forks_count: number;
   html_url: string;
+  homepage?: string | null;
   language: string | null;
   topics: string[];
   updated_at: string;
@@ -55,7 +56,7 @@ export const fetchGitHubRepos = async (username: string): Promise<GitHubRepo[]> 
             description: repo.description || '',
             stars: repo.stargazers_count || 0,
             forks: repo.forks_count || 0,
-            url: repo.html_url,
+            url: repo.homepage || repo.html_url,
             language: repo.language || 'Unknown',
             topics: repo.topics || [],
             updatedAt: repo.updated_at || new Date().toISOString(),
