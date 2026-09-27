@@ -54,6 +54,7 @@ const About = () => {
               <Image
                 src="/images/profile.jpg"
                 alt="Ali Shan - Expert Data Scientist and AI Engineer"
+                title="Ali Shan - Artificial Intelligence Engineer"
                 fill
                 priority
                 quality={90}

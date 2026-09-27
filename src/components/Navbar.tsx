@@ -28,8 +28,8 @@ const Navbar = () => {
             ? 'bg-slate-900/80 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-cyan-500/20' 
             : 'bg-transparent'
         }`}>
-          <Link href="/" className="text-2xl font-bold text-white hover:opacity-80 transition-transform hover:scale-105 relative h-10 w-10 md:h-12 md:w-12 rounded-full overflow-hidden shadow-lg shadow-cyan-500/20">
-            <Image src="/images/projects/logo.jpg" alt="Ali Shan logo" fill priority quality={90} className="object-cover" />
+          <Link href="/" className="text-2xl font-bold text-white hover:opacity-80 transition-transform hover:scale-105 relative h-10 w-10 md:h-12 md:w-12 rounded-full overflow-hidden shadow-lg shadow-cyan-500/20" title="Ali Shan - Home">
+            <Image src="/images/projects/logo.jpg" alt="Ali Shan - Official Logo | Data Scientist and AI/ML Engineer" title="Ali Shan - AI Engineer Logo" fill priority quality={90} className="object-cover" />
           </Link>
 
           <div className="flex flex-wrap items-center justify-end gap-6 md:gap-8">
