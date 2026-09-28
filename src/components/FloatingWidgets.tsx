@@ -66,7 +66,7 @@ export default function FloatingWidgets() {
         ...prev,
         {
           sender: "bot",
-          text: "I'm having a brief connection issue, but you can always reach Ali directly on WhatsApp (+92 3125355078) or via email at alishan.cs01@gmail.com!",
+          text: "I'm having a brief connection issue, but you can always reach Ali directly on WhatsApp (+92 3125355078) or via email at ali3819381@gmail.com!",
         },
       ]);
     } finally {
@@ -92,7 +92,7 @@ export default function FloatingWidgets() {
                   <Image src="/images/bot_icon.jpg" alt="Bot Icon" fill className="object-cover" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-sm">Ali's AI Assistant</h3>
+                  <h3 className="font-semibold text-sm">Ali&apos;s AI Assistant</h3>
                   <div className="flex items-center gap-1.5 text-[11px] text-cyan-200">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                     <span>Gemini AI Connected</span>

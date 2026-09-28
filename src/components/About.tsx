@@ -2,7 +2,6 @@
 
 import { motion, Variants } from 'framer-motion';
 import Image from 'next/image';
-import Link from 'next/link';
 
 const About = () => {
   const socialLinks = [

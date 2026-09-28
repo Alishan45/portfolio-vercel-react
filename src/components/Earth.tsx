@@ -38,7 +38,7 @@ const Earth = (props: ThreeElements['group']) => {
     <group ref={groupRef} {...props}>
       {/* Earth */}
       <mesh>
-        <sphereGeometry args={[2.4, 64, 64]} />
+        <sphereGeometry args={[2.4, 32, 32]} />
         <meshPhongMaterial 
           map={colorMap}
           bumpMap={colorMap}
@@ -50,7 +50,7 @@ const Earth = (props: ThreeElements['group']) => {
 
       {/* Clouds */}
       <mesh ref={cloudsRef}>
-        <sphereGeometry args={[2.42, 64, 64]} />
+        <sphereGeometry args={[2.42, 32, 32]} />
         <meshPhongMaterial
           map={cloudsMap}
           transparent={true}

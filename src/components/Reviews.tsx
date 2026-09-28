@@ -82,7 +82,7 @@ const Reviews = () => {
               
               {/* Quote Icon Background */}
               <div className="absolute -top-6 right-4 text-9xl text-cyan-500/10 font-serif leading-none select-none pointer-events-none">
-                "
+                &quot;
               </div>
 
               <div className="flex items-center mb-6 relative z-10">
@@ -100,7 +100,7 @@ const Reviews = () => {
                 </div>
               </div>
               <p className="text-slate-300 leading-relaxed relative z-10 whitespace-normal text-sm md:text-base">
-                "{review.content}"
+                &quot;{review.content}&quot;
               </p>
             </motion.div>
           ))}

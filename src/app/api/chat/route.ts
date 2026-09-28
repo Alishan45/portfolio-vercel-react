@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export const runtime = 'nodejs';
+export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
 
 const SYSTEM_PROMPT = `
@@ -28,7 +28,7 @@ About Ali Shan:
   15. Modern 3D Portfolio Website (Next.js, Three.js, Tailwind CSS)
 - Contact & Links:
   - WhatsApp: +92 3125355078
-  - Email: alishan.cs01@gmail.com
+  - Email: ali3819381@gmail.com
   - GitHub: https://github.com/Alishan45
   - LinkedIn: https://www.linkedin.com/in/ali-shan-542246235/
   - Kaggle: https://www.kaggle.com/alishan456
@@ -36,7 +36,7 @@ About Ali Shan:
 
 Guidelines:
 - Keep your answers concise, engaging, and clear (1 to 3 short sentences or concise bullet points), because this runs in a small floating mobile/desktop chat widget.
-- If asked how to contact Ali, mention his WhatsApp (+92 3125355078) and email (alishan.cs01@gmail.com) or the contact form on this site.
+- If asked how to contact Ali, mention his WhatsApp (+92 3125355078) and email (ali3819381@gmail.com) or the contact form on this site.
 - Be polite, welcoming, and highlight his passion for building cutting-edge AI and software solutions.
 `.trim();
 
@@ -49,12 +49,12 @@ export async function POST(request: NextRequest) {
     }
 
     const apiKey = (process.env.GEMINI_API_KEY || '').trim();
-    const model = (process.env.GEMINI_MODEL || 'gemini-flash-lite-latest').trim();
+    const model = 'gemini-3.6-flash';
 
     if (!apiKey) {
       console.warn('GEMINI_API_KEY is not configured in environment variables.');
       return NextResponse.json({
-        reply: "Hi! Ali's AI Assistant is currently in demo mode. Ali is an AI Engineer & Data Scientist specializing in ML, Computer Vision, and Full-Stack apps. You can contact him directly at alishan.cs01@gmail.com or on WhatsApp at +92 3125355078!",
+        reply: "Hi! Ali's AI Assistant is currently in demo mode. Ali is an AI Engineer & Data Scientist specializing in ML, Computer Vision, and Full-Stack apps. You can contact him directly at ali3819381@gmail.com or on WhatsApp at +92 3125355078!",
       });
     }
 
@@ -62,13 +62,17 @@ export async function POST(request: NextRequest) {
     const contents: Array<{ role: 'user' | 'model'; parts: [{ text: string }] }> = [];
 
     if (Array.isArray(history)) {
-      for (const msg of history) {
-        if (!msg.text || typeof msg.text !== 'string') continue;
-        const role = msg.sender === 'user' ? 'user' : 'model';
-        contents.push({
-          role,
-          parts: [{ text: msg.text.trim() }],
-        });
+      const firstUserIndex = history.findIndex((msg) => msg.sender === 'user');
+      if (firstUserIndex !== -1) {
+        const validHistory = history.slice(firstUserIndex);
+        for (const msg of validHistory) {
+          if (!msg.text || typeof msg.text !== 'string') continue;
+          const role = msg.sender === 'user' ? 'user' : 'model';
+          contents.push({
+            role,
+            parts: [{ text: msg.text.trim() }],
+          });
+        }
       }
     }
 
@@ -91,19 +95,35 @@ export async function POST(request: NextRequest) {
       },
     };
 
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
+    let response;
+    let retries = 3;
+    let delayMs = 1000;
 
-    if (!response.ok) {
-      const errorData = await response.text();
-      console.error('Gemini API Error:', response.status, errorData);
+    // Retry logic specifically for 503 Unavailable spikes
+    while (retries > 0) {
+      response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok || response.status !== 503) {
+        break;
+      }
+      
+      console.warn(`Gemini API 503: High demand. Retrying in ${delayMs}ms... (${retries} retries left)`);
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+      retries--;
+      delayMs *= 2; // Exponential backoff
+    }
+
+    if (!response || !response.ok) {
+      const errorData = response ? await response.text() : 'No response';
+      console.error('Gemini API Error:', response?.status, errorData);
       return NextResponse.json({
-        reply: "Thanks for reaching out! Ali is an AI Engineer & Data Scientist specializing in deep learning, NLP, and computer vision. You can connect with him directly on WhatsApp (+92 3125355078) or via email at alishan.cs01@gmail.com!",
+        reply: "Thanks for reaching out! Ali is an AI Engineer & Data Scientist specializing in deep learning, NLP, and computer vision. You can connect with him directly on WhatsApp (+92 3125355078) or via email at ali3819381@gmail.com!",
       });
     }
 
@@ -116,7 +136,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Error in chat API route:', error);
     return NextResponse.json({
-      reply: "Thanks for reaching out! Ali is an AI Engineer specializing in machine learning, NLP, and computer vision. Feel free to contact him directly at alishan.cs01@gmail.com or on WhatsApp (+92 3125355078).",
+      reply: "Thanks for reaching out! Ali is an AI Engineer specializing in machine learning, NLP, and computer vision. Feel free to contact him directly at ali3819381@gmail.com or on WhatsApp (+92 3125355078).",
     });
   }
 }

@@ -1,11 +1,13 @@
 import Navbar from '@/components/Navbar';
 import ClientHero from '@/components/ClientHero';
-import About from '@/components/About';
-import ProjectsGrid from '@/components/ProjectsGrid';
-import GitHubProjects from '@/components/GitHubProjects';
-import Reviews from '@/components/Reviews';
-import ContactForm from '@/components/ContactForm';
-import Footer from '@/components/Footer';
+import dynamic from 'next/dynamic';
+
+const About = dynamic(() => import('@/components/About'));
+const ProjectsGrid = dynamic(() => import('@/components/ProjectsGrid'));
+const GitHubProjects = dynamic(() => import('@/components/GitHubProjects'));
+const Reviews = dynamic(() => import('@/components/Reviews'));
+const ContactForm = dynamic(() => import('@/components/ContactForm'));
+const Footer = dynamic(() => import('@/components/Footer'));
 
 const personSchema = {
   '@context': 'https://schema.org',

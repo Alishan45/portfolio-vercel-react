@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import Link from 'next/link';
 
 type ProjectCategory = 'ALL' | 'AI/ML' | 'COMPUTER_VISION' | 'WEB_DEVELOPMENT' | 'OTHER';
 
