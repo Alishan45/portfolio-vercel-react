@@ -50,7 +50,7 @@ const About = () => {
         >
           <motion.div variants={itemVariants} className="relative group">
             <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-            <div className="relative h-[450px] w-full rounded-2xl overflow-hidden ring-1 ring-white/10 bg-slate-900">
+            <div className="relative h-[400px] md:h-[450px] w-full max-w-md mx-auto rounded-2xl overflow-hidden ring-1 ring-white/10 bg-slate-900">
               <Image
                 src="/images/profile.jpg"
                 alt="Ali Shan - Expert Data Scientist and AI Engineer"

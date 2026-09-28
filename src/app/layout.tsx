@@ -2,6 +2,7 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 import type { Metadata, Viewport } from 'next';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import FloatingWidgets from '@/components/FloatingWidgets';
 
 const inter = Inter({ subsets: ['latin'] });
 const siteUrl = 'https://portfolio-vercel-react.vercel.app';
@@ -120,6 +121,7 @@ export default function RootLayout({
         <ThemeProvider>
           {children}
         </ThemeProvider>
+        <FloatingWidgets />
       </body>
     </html>
   );
