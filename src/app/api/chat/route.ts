@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
     }
 
     const apiKey = (process.env.GEMINI_API_KEY || '').trim();
-    const model = 'gemini-3.6-flash';
+    const model = (process.env.GEMINI_MODEL || 'gemini-3.6-flash').trim();
 
     if (!apiKey) {
       console.warn('GEMINI_API_KEY is not configured in environment variables.');
@@ -95,28 +95,25 @@ export async function POST(request: NextRequest) {
       },
     };
 
-    let response;
-    let retries = 3;
-    let delayMs = 1000;
+    // Strict 8-second timeout so Vercel does not crash with 504 Gateway Timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
 
-    // Retry logic specifically for 503 Unavailable spikes
-    while (retries > 0) {
+    let response;
+    try {
       response = await fetch(endpoint, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
+        signal: controller.signal
       });
-
-      if (response.ok || response.status !== 503) {
-        break;
-      }
-      
-      console.warn(`Gemini API 503: High demand. Retrying in ${delayMs}ms... (${retries} retries left)`);
-      await new Promise((resolve) => setTimeout(resolve, delayMs));
-      retries--;
-      delayMs *= 2; // Exponential backoff
+      clearTimeout(timeoutId);
+    } catch (fetchError) {
+      clearTimeout(timeoutId);
+      console.error('Gemini fetch failed or timed out:', fetchError);
+      return NextResponse.json({
+        reply: "Ali Shan is an **AI Engineer & Data Scientist** with over 2 years of experience specializing in Machine Learning, Computer Vision, Deep Learning, and Full-Stack Development.\n\nHe is passionate about building high-impact AI solutions—ranging from medical imaging models and real-time detection systems to modern web and mobile apps.\n\nFeel free to explore his projects here or get in touch with him via **WhatsApp** (+92 3125355078) or **email** (ali3819381@gmail.com).",
+      });
     }
 
     if (!response || !response.ok) {
@@ -130,7 +127,7 @@ export async function POST(request: NextRequest) {
     const data = await response.json();
     const replyText =
       data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ||
-      "Thanks for your message! Feel free to ask about Ali's projects, technical skills, or reach out on WhatsApp (+92 3125355078).";
+      "Ali Shan is an **AI Engineer & Data Scientist** with over 2 years of experience specializing in Machine Learning, Computer Vision, Deep Learning, and Full-Stack Development.\n\nHe is passionate about building high-impact AI solutions—ranging from medical imaging models and real-time detection systems to modern web and mobile apps.\n\nFeel free to explore his projects here or get in touch with him via **WhatsApp** (+92 3125355078) or **email** (ali3819381@gmail.com).";
 
     return NextResponse.json({ reply: replyText });
   } catch (error) {
