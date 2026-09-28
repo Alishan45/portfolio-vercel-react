@@ -119,7 +119,12 @@ export default function FloatingWidgets() {
                       : "bg-cyan-600 text-white self-end rounded-tr-none shadow-md"
                   }`}
                 >
-                  {msg.text}
+                  {msg.text.split(/(\*\*.*?\*\*)/g).map((part, i) => {
+                    if (part.startsWith('**') && part.endsWith('**')) {
+                      return <strong key={i} className="font-semibold text-white">{part.slice(2, -2)}</strong>;
+                    }
+                    return <span key={i}>{part}</span>;
+                  })}
                 </motion.div>
               ))}
 

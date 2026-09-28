@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
     if (!apiKey) {
       console.warn('GEMINI_API_KEY is not configured in environment variables.');
       return NextResponse.json({
-        reply: "Hi! Ali's AI Assistant is currently in demo mode. Ali is an AI Engineer & Data Scientist specializing in ML, Computer Vision, and Full-Stack apps. You can contact him directly at ali3819381@gmail.com or on WhatsApp at +92 3125355078!",
+        reply: "Ali Shan is an **AI Engineer & Data Scientist** with over 2 years of experience specializing in Machine Learning, Computer Vision, Deep Learning, and Full-Stack Development.\n\nHe is passionate about building high-impact AI solutions—ranging from medical imaging models and real-time detection systems to modern web and mobile apps.\n\nFeel free to explore his projects here or get in touch with him via **WhatsApp** (+92 3125355078) or **email** (ali3819381@gmail.com).",
       });
     }
 
@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
       const errorData = response ? await response.text() : 'No response';
       console.error('Gemini API Error:', response?.status, errorData);
       return NextResponse.json({
-        reply: "Thanks for reaching out! Ali is an AI Engineer & Data Scientist specializing in deep learning, NLP, and computer vision. You can connect with him directly on WhatsApp (+92 3125355078) or via email at ali3819381@gmail.com!",
+        reply: "Ali Shan is an **AI Engineer & Data Scientist** with over 2 years of experience specializing in Machine Learning, Computer Vision, Deep Learning, and Full-Stack Development.\n\nHe is passionate about building high-impact AI solutions—ranging from medical imaging models and real-time detection systems to modern web and mobile apps.\n\nFeel free to explore his projects here or get in touch with him via **WhatsApp** (+92 3125355078) or **email** (ali3819381@gmail.com).",
       });
     }
 
@@ -136,7 +136,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Error in chat API route:', error);
     return NextResponse.json({
-      reply: "Thanks for reaching out! Ali is an AI Engineer specializing in machine learning, NLP, and computer vision. Feel free to contact him directly at ali3819381@gmail.com or on WhatsApp (+92 3125355078).",
+      reply: "Ali Shan is an **AI Engineer & Data Scientist** with over 2 years of experience specializing in Machine Learning, Computer Vision, Deep Learning, and Full-Stack Development.\n\nHe is passionate about building high-impact AI solutions—ranging from medical imaging models and real-time detection systems to modern web and mobile apps.\n\nFeel free to explore his projects here or get in touch with him via **WhatsApp** (+92 3125355078) or **email** (ali3819381@gmail.com).",
     });
   }
 }
